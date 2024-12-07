@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmação de Pagamento</title>
+    <link rel="stylesheet" href="styles.css">                                                           
+    <script>
+        // Script para capturar os parâmetros da URL e exibir os detalhes do plano
+        document.addEventListener("DOMContentLoaded", function () {
+            const params = new URLSearchParams(window.location.search);
+            const produto = params.get("produto");
+            const preco = params.get("preco");
+
+            if (produto && preco) {
+                document.getElementById("produto-nome").textContent = produto.replace(/([A-Z])/g, ' $1').trim();
+                document.getElementById("produto-preco").textContent = `R$ ${preco},00`;
+            } else {
+                document.getElementById("produto-detalhes").innerHTML = 
+                    "<p style='color: red;'>Erro: Detalhes do plano não encontrados.</p>";
+            }
+        });
+
+        // Função para confirmar os termos e exibir o QR Code
+        function confirmarPagamento() {
+            const termos = document.getElementById("termos").checked;
+            if (!termos) {
+                alert("Você precisa aceitar os termos de responsabilidade.");
+                return false;
+            }
+
+            document.getElementById("qr-code").style.display = "block";
+            return false;
+        }
+
+        // Função para exibir os termos em um modal
+        function exibirTermos() {
+            document.getElementById("modal-termos").style.display = "block";
+        }
+
+        // Função para fechar o modal de termos
+        function fecharTermos() {
+            document.getElementById("modal-termos").style.display = "none";
+        }
+    </script>
+
+</head>
+<body>
+    <header>
+        <h1>Confirmação de Pagamento</h1>
+    </header>
+
+    <main>
+        <section id="produto-detalhes">
+            <h2>Detalhes do Produto</h2>
+            <div class="produto-info">
+                <p><strong>Produto:</strong> <span id="produto-nome"></span></p>
+                <p><strong>Preço:</strong> <span id="produto-preco"></span></p>
+            </div>
+        </section>
+
+        <section>
+            <h3>Termos de Responsabilidade</h3>
+            <p>Ao prosseguir com a compra, você concorda com nossos termos e condições?</p>
+            <button class="btn-leitura" onclick="exibirTermos()">Ler Termos</button>
+            
+            <label class="check-label">
+                <input type="checkbox" id="termos"> Estou ciente e concordo com os termos de responsabilidade
+            </label>
+
+            <button class="btn-confirmar" onclick="confirmarPagamento()">Confirmar e Gerar QR Code</button>
+        </section>
+
+        <div id="qr-code" class="qr-container" style="display: none;">
+            <h3>QR Code para Pagamento</h3>
+            <img src="imagens/qrcode.jpg" alt="QR Code para pagamento" class="qr-img">
+            <p>Escaneie o QR Code para completar o pagamento. <b> Após a confirmação do pagamento, enviar compravante para o whatsapp com o nome do produto adquirido</b>
+               </p>
+            
+        </div>
+    </main>    
+
+    <div id="modal-termos">
+        <div id="modal-content">
+            <h2>Termos de Responsabilidade</h2>
+            <div id="termos-texto">
+                <p><strong>1. Disponibilidade do Serviço</strong></p>
+                <p>
+                    Nós nos comprometemos a fornecer acesso contínuo às plataformas de streaming adquiridas através do nosso serviço. No entanto, devido à natureza dos sistemas digitais, podem ocorrer interrupções temporárias devidas a fatores técnicos ou externos, como manutenção programada, instabilidades na internet ou falhas inesperadas de servidores.
+                </p>
+                <p>
+                    Caso ocorra alguma interrupção no serviço, nosso suporte estará disponível durante <strong>horário comercial</strong> para auxiliá-lo e garantir o restabelecimento no menor prazo possível.
+                </p>
+                <p><strong>2. Política de Reembolso</strong></p>
+                <ul>
+                    <li>Em casos de <strong>interrupção permanente do serviço antes de 15 dias</strong> a partir da data de ativação, o cliente terá direito ao reembolso integral do valor pago.</li>
+                    <li>Após o período de 15 dias da data de ativação, <strong>não haverá reembolso</strong>, mesmo em caso de interrupção permanente.</li>
+                    <li>Caso o cliente descumpra as <strong>regras para o bom funcionamento do serviço de streaming</strong>, como uso inadequado ou ações que violem as condições técnicas recomendadas, será considerado de sua inteira responsabilidade, e <strong>não haverá reembolso</strong> em nenhuma hipótese.</li>
+                </ul>
+                <p><strong>3. Responsabilidades do Cliente</strong></p>
+                <ul>
+                    <li>Garantir o acesso a uma conexão de internet estável e suficiente para utilização do serviço de streaming.</li>
+                    <li>Seguir corretamente as orientações de uso fornecidas no momento da contratação.</li>
+                    <li>Comunicar imediatamente ao suporte técnico qualquer falha no acesso ou problemas técnicos, respeitando os horários de atendimento indicados.</li>
+                </ul>
+                <p><strong>4. Suporte Técnico</strong></p>
+                <p>
+                    Nosso suporte técnico está disponível exclusivamente em <strong>horário comercial</strong> (de segunda a sexta-feira, das 9h às 18h, exceto feriados). Solicitamos que entre em contato imediatamente ao perceber qualquer problema, informando detalhes claros para que possamos solucionar a situação com a maior agilidade possível.
+                </p>
+                <p><strong>5. Limitações de Garantia</strong></p>
+                <ul>
+                    <li>Quedas de serviço decorrentes de fatores externos ao nosso controle, como problemas de infraestrutura da operadora de internet, desastres naturais ou bloqueios de acesso por parte das plataformas de streaming.</li>
+                    <li>Problemas decorrentes do uso inadequado do serviço pelo cliente ou dispositivos incompatíveis.</li>
+                    <li>Falhas ocasionadas pelo não cumprimento das recomendações para o correto funcionamento do serviço, conforme descrito no item 3.</li>
+                </ul>
+                <p><strong>6. Aceitação dos Termos</strong></p>
+                <p>
+                    Ao adquirir nossos serviços, o cliente declara estar ciente e de acordo com os termos aqui descritos, bem como compreende que o uso adequado do serviço é essencial para o seu correto funcionamento.
+                </p>
+            </div>
+            <button onclick="fecharTermos()">Fechar</button>
+        </div>
+    </div>
+    
+
+    <footer>
+        <p>&copy; 2024 Streaming Pro - Todos os direitos reservados</p>
+    </footer>
+</body>
+</html>
